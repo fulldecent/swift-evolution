@@ -34,12 +34,16 @@ public enum Trade {
 
 let commissions = trades.map {
     case .Buy(let quantity, let price) where quantity * price > 10000:
+        let vipCommissionRate = calculateCommissionRate(...)
         quantity * price * vipCommissionRate / 100
     case .Buy(let quantity, let price):
+        let commissionRate = calculateCommissionRate(...)
         quantity * price * commissionRate / 100
     case .Sell(let quantity, let price) where quantity * price > 10000:
+        let vipCommissionRate = calculateCommissionRate(...)
         quantity * price * vipCommissionRate / 100
     case .Sell(let quantity, let price):
+        let commissionRate = calculateCommissionRate(...)
         quantity * price * commissionRate / 100
 }
 	         
@@ -48,7 +52,7 @@ let commissions = trades.map {
 
 
 
-Alternative grammar `cases`/`default` which is a specialized version that can be used for the simplest and the most consise use case.  If the use case is a simple definition of mapping of values then `cases` can be used to define all possible `cases` instead of multiple `case` clauses.  `cases` and `case` are mutually exclusive.  If `cases` is used then the `where` clause is not supported. There can only be one `cases` clause. 
+Alternative grammar `cases`/`default` which is a specialized version that can be used for the simplest and the most consise use case.  If the use case is a simple definition of mapping of values then `cases` can be used to define multiple  case clauses. `cases` clause may not be used with a `where` clause.  The purpose of allowing `cases` as syntatic sugar for multiple `case` clauses is to allow a less verbose option for use cases where the developer would use a multi-case ternary expression.
 
 
 ```
@@ -120,7 +124,7 @@ where-expression → expression­
 
 
 
-Alternative grammar `cases`/`default` which is a specialized version that can be used for the simplest and the most consise use case.  If the use case is a simple definition of mapping of values then `cases` can be used to define all possible `cases` instead of multiple `case` clauses.  `cases` and `case` are mutually exclusive.  If `cases` is used then the `where` clause is not supported. There can only be one `cases` clause. 
+Alternative grammar `cases`/`default` which is a specialized version that can be used for the simplest and the most consise use case.  If the use case is a simple definition of mapping of values then `cases` can be used to define multiple  case clauses. `cases` clause may not be used with a `where` clause.  The purpose of allowing `cases` as syntatic sugar for multiple `case` clauses is to allow a less verbose option for use cases where the developer would use a multi-case ternary expression.
 
 
 **NEW GRAMMAR FOR CONSISE FORM OF CASES**
