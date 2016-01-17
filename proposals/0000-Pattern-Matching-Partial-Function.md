@@ -13,14 +13,16 @@ Swift-evolution thread: [link to the discussion thread for that proposal](https:
 
 ## Motivation
 
-The proprosal grew out of the desire to be able to be able to have a switch-expression for pattern matching or a like expression for cases where there are more than two potential results.
+The goal of this proposal is to take a very common task of mapping from one set of values into other values where the mapping is composed of multiple functions each which maps a subset of values.  This is a very common scenario as such the ability to implement this in an easy to ready less verbose manner would be of great benefit.
 
-Discussions about multi-case ternary solutions lead to the idea that the same functionality could be provided in a more generalized solution that would work for both a value or a collection of values.  Swift already has a function `map` that provides the ability to map a collection to a new collection using a function.  If the ability to define partial functions to map values from one collection to another for a subset of the values, a total function could be composed out of passing multiple partial functions.  Using existing `case`/`default` syntax for defining these partial functions will make it more intuitive.
+The existing switch statement is designed primarily for flow control.  While the switch statement can be duct-taped in, it is not well suited for the task.  Use of the switch statement for this task tends to lead to bloated code because of the additional code clutter needed to make the switch statement fit into a function.  The lack of focus on solving the problem at hand leads to less safe and more error prone code.
 
-This proposal provides a generalized solution to the commonly proposed requests:
+Alternatives to the switch statement such as using a Dictionary for this task are also not best suited as it tends to increase the cognative load making it less clear to what function is being performed.
 
-1. `switch` expression.
-3. Replacement of ternary operator which is considered magical and terse by some.  This proposal does not propose any changes to the ternary operator.
+This proposal provides a simple mechanism which covers many different scenarios.  It may be used where the ideal solution is a `switch` expression.  It may also be used to provide a way of simply mapping conditionally between multiple values in two related but different domains.  In addition, it can be used in combination with other functions such as `reduce` and `filter` where the logic is partially conditional.
+
+Since the syntax is the familiar `case`/`default` clauses common to switch statements, it is easy for the developer to remember and understand.
+
 
 ## Proposed solution
 
@@ -49,8 +51,13 @@ let commissions = trades.map {
 	         
 ```
 
+Each of the case clauses represent a partial closure / partial function.  As with a total closure the case result may be specified with the optional `return` clause.  For example:
 
-
+```
+    case .Buy(let quantity, let price) where quantity * price > 10000:
+        let vipCommissionRate = calculateCommissionRate(...)
+        return quantity * price * vipCommissionRate / 100
+```
 
 Alternative grammar `cases`/`default` which is a specialized version that can be used for the simplest and the most consise use case.  If the use case is a simple definition of mapping of values then `cases` can be used to define multiple  case clauses. `cases` clause may not be used with a `where` clause.  The purpose of allowing `cases` as syntatic sugar for multiple `case` clauses is to allow a less verbose option for use cases where the developer would use a multi-case ternary expression.
 
@@ -93,15 +100,14 @@ public enum Troy {
 let weightTroy = [Troy.Pound(5), Troy.Ounce(4), Troy.Pennyweight(6), Troy.Grain(9)]
 
 let weightKg = weightTroy.reduce(0.00) {
-    case (acc, Troy.Pound(let quantity)):
+    case (let acc, Troy.Pound(let quantity)):
         acc + Double(quantity) * 0.373
-    case (acc, Troy.Ounce(let quantity)):
+    case (let acc, Troy.Ounce(let quantity)):
         acc + Double(quantity) * 0.031103
-    case (acc, Troy.Pennyweight(let quantity)):
+    case (let acc, Troy.Pennyweight(let quantity)):
         acc + Double(quantity) * 0.001555
-    case (acc, Troy.Grain(let quantity)):
+    case (let acc, Troy.Grain(let quantity)):
         acc + Double(quantity) * 0.0000648
-    }
 }
 	         
 ```
@@ -158,16 +164,19 @@ public enum Troy {
 let weightTroy = [Troy.Pound(5), Troy.Ounce(4), Troy.Pennyweight(6), Troy.Grain(9)]
 
 let weightKg = weightTroy.reduce(0.00) {
-    case (acc, Troy.Pound(let quantity)) in
+    case (let acc, Troy.Pound(let quantity)) in
         acc + Double(quantity) * 0.373
-    case (acc, Troy.Ounce(let quantity)) in
+    case (let acc, Troy.Ounce(let quantity)) in
         acc + Double(quantity) * 0.031103
-    case (acc, Troy.Pennyweight(let quantity)) in
+    case (let acc, Troy.Pennyweight(let quantity)) in
         acc + Double(quantity) * 0.001555
-    case (acc, Troy.Grain(let quantity)) in
+    case (let acc, Troy.Grain(let quantity)) in
         acc + Double(quantity) * 0.0000648
     }
 }
 	         
 ```
 
+## Out of Scope
+
+Named partial functions are out of scope for this proposal. 
