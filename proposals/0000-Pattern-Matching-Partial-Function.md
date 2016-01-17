@@ -15,9 +15,9 @@ Swift-evolution thread: [link to the discussion thread for that proposal](https:
 
 The goal of this proposal is to take a very common task of mapping from one set of values into other values where the mapping is composed of multiple functions each which maps a subset of values.  This is a very common scenario as such the ability to implement this in an easy to ready less verbose manner would be of great benefit.
 
-The existing switch statement is designed primarily for flow control.  While the switch statement can be duct-taped in, it is not well suited for the task.  Use of the switch statement for this task tends to lead to bloated code because of the additional code clutter needed to make the switch statement fit into a function.  The lack of focus on solving the problem at hand leads to less safe and more error prone code.
+The existing `switch` statement is designed primarily for flow control.  While the `switch` statement can be duct-taped in, it is not well suited for the task.  Use of the `switch` statement for this task tends to lead to bloated code because of the additional code clutter needed to make the `switch` statement fit into a function.  The lack of focus on solving the problem at hand leads to less safe and more error prone code.
 
-Alternatives to the switch statement such as using a Dictionary for this task are also not best suited as it tends to increase the cognative load making it less clear to what function is being performed.
+Alternatives to the `switch` statement such as using a Dictionary for this task are also not best suited as it tends to increase the cognative load making it less clear to what function is being performed.
 
 This proposal provides a simple mechanism which covers many different scenarios.  It may be used where the ideal solution is a `switch` expression.  It may also be used to provide a way of simply mapping conditionally between multiple values in two related but different domains.  In addition, it can be used in combination with other functions such as `reduce` and `filter` where the logic is partially conditional.
 
