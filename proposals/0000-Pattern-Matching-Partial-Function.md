@@ -1,7 +1,7 @@
 # Pattern Matching Partial Function
 
 * Proposal: [SE-NNNN](https://github.com/apple/swift-evolution/blob/master/proposals/NNNN-name.md)
-* Author(s): [Swift Developer](https://github.com/swiftdev)
+* Author(s): [Craig Cruden](https://github.com/cacruden)
 * Status: **Awaiting review**
 * Review manager: TBD
 
@@ -9,13 +9,28 @@
 
 Provide the ability for defining partial functions using familiar `case`/`default` pattern matching syntax.  The proposal includes the ability to use the existing `map` function to provide the same functionality as a switch-expression.  All basic types such as `Int`, `Float`, `Bool`, `Optional`, `tuple`, `String` must support the `map` function so that the same `map` using these same partial functions will provide the ability to use it as a switch-expression.  Functions on arrays, dictionaries or other collections such as `reduce` or `filter` would accept these partial functions.  Use of `case`/`default` partial functions must always be exhaustive providing a total function.
 
-Swift-evolution thread: [link to the discussion thread for that proposal](https://lists.swift.org/pipermail/swift-evolution)
+Swift-evolution thread: [ternary operator ?: suggestion](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006194.html)
 
 ## Motivation
 
-The goal of this proposal is to take a very common task of mapping from one set of values into other values where the mapping is composed of multiple functions each which maps a subset of values.  This is a very common scenario as such the ability to implement this in an easy to ready less verbose manner would be of great benefit.
+The author is proposing a new mapping methodology that directly addresses a problem that occurs often in Swift programs and currently has no elegant solution.  The syntax proposed makes Swift code easier to read, easier to write, and less issue prone.
 
-The existing `switch` statement is designed primarily for flow control.  While the `switch` statement can be duct-taped in, it is not well suited for the task.  Use of the `switch` statement for this task tends to lead to bloated code because of the additional code clutter needed to make the `switch` statement fit into a function.  The lack of focus on solving the problem at hand leads to less safe and more error prone code.
+The following example where a string is mapped to an enum case is indicative of the problem:
+
+```
+let str:String
+	
+switch state {
+case .Cold: 
+	str = “Too cold”
+case .Hot: 
+	str = “Too hot”
+default: 
+	str = “Just right”
+}
+```
+
+The syntax above does not elegantly express our intent as the `switch` statement is designed for “flow control”.  Aside from being limited to choosing a single value our example requires no “flow control”.  In addition, the ability to execute unrelated statements inside the switch statement makes it harder prove correctness of the algorithm.
 
 Alternatives to the `switch` statement such as using a Dictionary for this task are also not best suited as it tends to increase the cognative load making it less clear to what function is being performed.
 
