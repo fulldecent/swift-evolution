@@ -13,7 +13,7 @@ Swift-evolution thread: [ternary operator ?: suggestion](https://lists.swift.org
 
 ## Motivation
 
-The author is proposing a new mapping methodology that directly addresses a problem that occurs often in Swift programs and currently has no elegant solution.  The syntax proposed makes Swift code easier to read, easier to write, and less issue prone.
+There is currently no elegant methodology within Swift closures to conditionally map values.  This type of scenario occurs often in Swift code and this proposal provides a generalized and flexible solution.  Any where a closure is used the developer will also be able to conditionally execute multiple partial closures depending on the mapping of values.  The syntax proposed makes Swift code easier to read, easier to write, and less issue prone.  
 
 The following example where a string is mapped to an enum case is indicative of the problem:
 
@@ -32,11 +32,11 @@ default:
 
 The syntax above does not elegantly express our intent as the `switch` statement is designed for “flow control”.  Aside from being limited to choosing a single value our example requires no “flow control”.  In addition, the ability to execute unrelated statements inside the switch statement makes it harder prove correctness of the algorithm.
 
-Alternatives to the `switch` statement such as using a Dictionary for this task are also not best suited as it tends to increase the cognative load making it less clear to what function is being performed.
+Alternatives to using `switch` do exist but are unsatisfactory.  A `Dictionary`, for example, increases cognitive load (i.e. requires `Hashable` keys and returns an optional).  This makes it less clear as to what function is being performed.
 
 This proposal provides a simple mechanism which covers many different scenarios.  It may be used where the ideal solution is a `switch` expression.  It may also be used to provide a way of simply mapping conditionally between multiple values in two related but different domains.  In addition, it can be used in combination with other functions such as `reduce` and `filter` where the logic is partially conditional.
 
-Since the syntax is the familiar `case`/`default` clauses common to switch statements, it is easy for the developer to remember and understand.
+The syntax is based on familiar `case`/`default` clauses common to switch statements which may be used in functions such as `map`, `filter`, `reduce`.  This makes it easy for the developer to remember and understand.
 
 
 ## Proposed solution
