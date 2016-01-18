@@ -13,7 +13,7 @@ Swift-evolution thread: [ternary operator ?: suggestion](https://lists.swift.org
 
 ## Motivation
 
-There is currently no elegant methodology within Swift closures to conditionally map values.  This type of scenario occurs often in Swift code and this proposal provides a generalized and flexible solution.  Any where a closure is used the developer will also be able to conditionally execute multiple partial closures depending on the mapping of values.  The syntax proposed makes Swift code easier to read, easier to write, and less issue prone.  
+There is currently no elegant methodology within Swift closures to conditionally map values.  This type of scenario occurs often in Swift code and this proposal provides a generalized and flexible solution.  Anywhere a closure is used the developer will also be able to conditionally execute multiple partial closures depending on the mapping of values.  The syntax proposed makes Swift code easier to read, easier to write, and less issue prone.  
 
 The following example where a string is mapped to an enum case is indicative of the problem:
 
