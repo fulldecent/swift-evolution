@@ -34,7 +34,7 @@ The syntax above does not elegantly express our intent as the `switch` statement
 
 Alternatives to using `switch` do exist but are unsatisfactory.  A `Dictionary`, for example, increases cognitive load (i.e. requires `Hashable` keys and returns an optional).  This makes it less clear as to what function is being performed.
 
-This proposal provides a simple mechanism which covers many different scenarios.  It may be used where the ideal solution is a `switch` expression.  It may also be used to provide a way of simply mapping conditionally between multiple values in two related but different domains.  In addition, it can be used in combination with other functions such as `reduce` and `filter` where the logic is partially conditional.
+This proposal provides a simple mechanism which covers many different types of scenarios.  It may be used where the ideal solution is a `switch` expression.  It may also be used to provide a way of simply mapping conditionally between multiple values in two related but different domains.  In addition, it can be used in combination with other functions such as `reduce` and `filter` where the logic is partially conditional.
 
 The syntax is based on familiar `case`/`default` clauses common to switch statements which may be used in functions such as `map`, `filter`, `reduce`.  This makes it easy for the developer to remember and understand.
 
